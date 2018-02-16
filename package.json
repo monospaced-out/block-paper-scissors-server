@@ -1,0 +1,12 @@
+{
+  "name": "block-paper-scissors-server",
+  "version": "0.1.0",
+  "dependencies": {
+    "express": "^4.16.2",
+    "http": "0.0.0",
+    "socket.io": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node scripts/start.js"
+  }
+}
