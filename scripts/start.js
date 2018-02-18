@@ -16,9 +16,10 @@ let clients = [];
 io.on('connection', function (socket) {
   socket.on('introduction', function (introData) {
     let myAddress = introData.address
+    let myName = introData.name
 
-    clients.push({address: introData.address, socket: socket})
-    io.sockets.emit('addresses', clients.map(client => client.address))
+    clients.push({ address: introData.address, name: myName, socket })
+    io.sockets.emit('addresses', clients.map(client => { return { address: client.address, name: client.name } }))
 
     socket.on('disconnect', function () {
       clients = clients.filter(c => c.address !== myAddress)
@@ -28,8 +29,9 @@ io.on('connection', function (socket) {
     socket.on('sendMessage', function ({ recipient, message, meta }) {
       let matches = clients.filter(c => c.address === recipient)
       let target = matches.length ? matches[0] : null
+      let tempAddress = target ? target.address : null
       if (target) {
-        target.socket.emit('receiveMessage', { sender: myAddress, message, meta })
+        target.socket.emit('receiveMessage', { sender: { name: myName, address: myAddress }, message, meta })
       }
     })
   })
