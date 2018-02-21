@@ -61,7 +61,8 @@ MongoClient.connect(dbUrl, (err, dbClient) => {
     let gameId = req.body.gameId
     let player = req.body.player
     let opponent = req.body.opponent
-    db.collection('results').insertOne({ key, gameId, player, opponent }, (resultSaveErr) => {
+    let name = req.body.name
+    db.collection('results').insertOne({ key, gameId, player, opponent, name }, (resultSaveErr) => {
       if (!resultSaveErr) {
         res.sendStatus(201)
       } else {
